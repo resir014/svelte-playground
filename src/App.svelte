@@ -1,8 +1,9 @@
 <script>
-  import calculatePhysics from './utils/calculatePhysics';
+  import calculatePhysics from './utils/physics/calculatePhysics';
 
   import Result from './Result.svelte';
   import ReferenceTable from './ReferenceTable.svelte';
+  import NumberField from './components/NumberField.svelte';
 
   const tyreCompounds = [
     { value: 1, name: 'Economy' },
@@ -49,6 +50,8 @@
       drivetrain,
       isHistoric,
     });
+
+    console.log(result)
   }
 </script>
 
@@ -60,46 +63,22 @@
 
 <h2>Step 1: Car Statistics</h2>
 
-<div class="form-block">
-  <label for="power">Power (in hp/bhp)</label>
-  <input type="number" bind:value={power} id="power" name="power" />
-</div>
-
-<div class="form-block">
-  <label for="weight">Weight</label>
-  <input type="number" bind:value={weight} id="weight" name="weight" />
-</div>
-
-<div class="form-block">
-  <label for="topSpeed">Top Speed</label>
-  <input type="number" bind:value={topSpeed} id="topSpeed" name="topSpeed" />
-</div>
+<NumberField label="Power (in hp/bhp)" name="power" bind:value={power} />
+<NumberField label="Weight (in kg)" name="weight" bind:value={weight} />
+<NumberField label="Top Speed (in km/h)" name="topSpeed" bind:value={topSpeed} />
 
 <h2>Step 2: Downforce</h2>
 
-<div class="form-block">
-  <label for="downforce">Downforce</label>
-  <input type="number" bind:value={downforce} id="downforce" name="downforce" />
-</div>
+<NumberField label="Downforce Value" name="downforce" bind:value={downforce} />
 
 <ReferenceTable />
 
-<div class="form-block">
-  <label for="airResistance">Drag Coefficient</label>
-  <input type="number" bind:value={airResistance} id="airResistance" name="airResistance" />
-</div>
+<NumberField label="Drag Coefficient (0.27 - 0.5)" name="airResistance" bind:value={airResistance} />
 
 <h2>Step 3: Tyres</h2>
 
-<div class="form-block">
-  <label for="tyreWidthFront">Front tyre width (mm)</label>
-  <input type="number" bind:value={tyreWidthFront} id="tyreWidthFront" name="tyreWidthFront" />
-</div>
-
-<div class="form-block">
-  <label for="tyreWidthRear">Front tyre width (mm)</label>
-  <input type="number" bind:value={tyreWidthRear} id="tyreWidthRear" name="tyreWidthRear" />
-</div>
+<NumberField label="Front tyre width (mm)" name="tyreWidthFront" bind:value={tyreWidthFront} />
+<NumberField label="Rear tyre width (mm)" name="tyreWidthRear" bind:value={tyreWidthRear} />
 
 <div class="form-block">
   <label for="tyreCompound">Tyre Compound</label>
@@ -128,4 +107,4 @@
 
 <button on:click={handleClick}>Calculate</button>
 
-<Result result={result} />
+<Result {result} />

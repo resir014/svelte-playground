@@ -1,25 +1,23 @@
-<script>
-  let isReferenceTableVisible = false;
-
-  function handleClick() {
-    isReferenceTableVisible = !isReferenceTableVisible;
-  }
-</script>
-
 <style>
+  :root {
+    --border-color: #ddd;
+  }
+
   .wrapper {
     margin: 1rem 0;
+    border: 1px solid var(--border-color);
+    border-collapse: collapse;
   }
 
-  .is-hidden {
-    display: none;
+  .wrapper summary {
+    padding: 0.5rem 1rem;
   }
 </style>
 
-<div class="wrapper">
-  <button on:click={handleClick}>{isReferenceTableVisible ? 'Hide' : 'Show'} reference table</button>
+<details class="wrapper">
+  <summary>Reference table</summary>
 
-  <table class="table {!isReferenceTableVisible ? 'is-hidden' : ''}">
+  <table>
     <thead>
       <tr>
         <th>Downforce</th>
@@ -52,4 +50,4 @@
       </tr>
     </tbody>
   </table>
-</div>
+</details>

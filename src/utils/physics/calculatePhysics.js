@@ -1,3 +1,7 @@
+// @ts-check
+
+import { calculateNonTarmacGrip } from './calculateGrip';
+
 /**
  * @typedef {Object} SurfaceProperties
  * @property {number} oil
@@ -31,6 +35,8 @@
 /**
  * @typedef {Object} CalculationResult
  * @property {ScaledCarData} performance
+ * @property {SurfaceProperties} grip
+ * @property {SurfaceProperties} slowdown
  */
 
 /**
@@ -76,11 +82,11 @@ function getBalance(tyreWidthFront, tyreWidthRear, weight) {
  * ((twf+twr) * (1+(tc*0.1))) * 0.006
  * ```
  *
- * @param {number} tyreCompound
  * @param {number} tyreWidthFront
  * @param {number} tyreWidthRear
+ * @param {number} tyreCompound
  */
-function calculateTarmac2Grip(tyreCompound, tyreWidthFront, tyreWidthRear) {
+function calculateTarmac2Grip(tyreWidthFront, tyreWidthRear, tyreCompound) {
   return (tyreWidthFront + tyreWidthRear) * (1 + tyreCompound * 0.1) * 0.006;
 }
 
@@ -101,30 +107,32 @@ function historicPenalty(grip) {
 }
 
 /**
- * @param {number} tyreCompound
  * @param {number} tyreWidthFront
  * @param {number} tyreWidthRear
+ * @param {number} tyreCompound
  * @param {boolean} isHistoric
  */
-function calculateTarmacGrip(tyreCompound, tyreWidthFront, tyreWidthRear, isHistoric) {
-  let gripTarmac;
-  let gripTarmac2;
+function calculateTarmacGrip(tyreWidthFront, tyreWidthRear, tyreCompound, isHistoric) {
+  let tarmac;
+  let tarmac2;
 
-  gripTarmac2 = calculateTarmac2Grip(tyreCompound, tyreWidthFront, tyreWidthRear);
+  tarmac2 = calculateTarmac2Grip(tyreWidthFront, tyreWidthRear, tyreCompound);
 
   // Now we can find gripTarmac1.
   if (tyreCompound < 6) {
     // if TC type less than 6, tarmac2 - 0.1
-    gripTarmac = gripTarmac2 - 0.1;
+    tarmac = tarmac2 - 0.1;
   } else {
     // if TC type more than 5, tarmac2 - 0.2
-    gripTarmac = gripTarmac2 - 0.2;
+    tarmac = tarmac2 - 0.2;
   }
 
   if (isHistoric) {
-    gripTarmac = historicPenalty(gripTarmac);
-    gripTarmac2 = historicPenalty(gripTarmac2);
+    tarmac = historicPenalty(tarmac);
+    tarmac2 = historicPenalty(tarmac2);
   }
+
+  return { tarmac, tarmac2 };
 }
 
 /**
@@ -138,24 +146,54 @@ export default function calculatePhysics({
   power,
   tyreWidthFront,
   tyreWidthRear,
+  tyreCompound,
+  drivetrain,
+  isHistoric,
   weight,
 }) {
   const topSpeedScaled = topSpeed * 0.277;
   const weightScaled = weight * 0.6;
   const sliding = 0;
 
+  console.log(tyreWidthFront, tyreWidthRear);
+
   const balance = getBalance(tyreWidthFront, tyreWidthRear, weight);
+
+  const tarmacGrip = calculateTarmacGrip(tyreWidthFront, tyreWidthRear, tyreCompound, isHistoric);
 
   /** @type {CalculationResult} */
   const result = {
     performance: {
-      airResistance,
-      downforce,
-      power,
       sliding,
       balance,
+      airResistance: airResistance,
+      downforce: downforce,
+      power: power,
       topSpeed: topSpeedScaled,
       weight: weightScaled,
+    },
+    grip: {
+      ...tarmacGrip,
+      ...calculateNonTarmacGrip(tyreCompound, drivetrain),
+      kerb: calculateKerbGrip(tarmacGrip.tarmac),
+      kerb2: calculateKerbGrip(tarmacGrip.tarmac2),
+    },
+    slowdown: {
+      oil: 0.1,
+      tarmac: 0.01,
+      tarmac2: 0.01,
+      grass: 0.5,
+      mud: 0.5,
+      gravel: 0.2,
+      gravel2: 0.1,
+      sand: 2,
+      sand2: 1.5,
+      snow: 1.5,
+      snow2: 1.5,
+      ice: 0.1,
+      kerb: 0,
+      kerb2: 0.1,
+      looseGravel: 0.3,
     },
   };
 
