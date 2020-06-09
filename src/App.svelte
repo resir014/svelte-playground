@@ -123,7 +123,7 @@ import SelectField from './components/SelectField.svelte';
       <CheckboxField name="isHistoric" label="Historic tyres" bind:checked={isHistoric} />
       <SelectField name="drivetrain" label="Drivetrain" bind:value={drivetrain} options={drivetrains} />
 
-      <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" on:click={handleClick}>
+      <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold mt-8 py-2 px-4 rounded w-full" on:click={handleClick}>
         Calculate
       </button>
 
