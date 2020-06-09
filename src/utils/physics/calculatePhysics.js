@@ -1,63 +1,6 @@
 // @ts-check
 
-import { calculateNonTarmacGrip } from './calculateGrip';
-
-/**
- * @typedef {Object} SurfaceProperties
- * @property {number} oil
- * @property {number} tarmac
- * @property {number} tarmac2
- * @property {number} grass
- * @property {number} mud
- * @property {number} gravel
- * @property {number} gravel2
- * @property {number} sand
- * @property {number} sand2
- * @property {number} snow
- * @property {number} snow2
- * @property {number} ice
- * @property {number} kerb
- * @property {number} kerb2
- * @property {number} looseGravel
- */
-
-/**
- * @typedef {Object} ScaledCarData
- * @property {number} airResistance
- * @property {number} downforce
- * @property {number} power
- * @property {number} topSpeed
- * @property {number} sliding
- * @property {number} weight
- * @property {number} balance
- */
-
-/**
- * @typedef {Object} CalculationResult
- * @property {ScaledCarData} performance
- * @property {SurfaceProperties} grip
- * @property {SurfaceProperties} slowdown
- */
-
-/**
- * @typedef {Object} GripResult
- * @property {number} gripTarmac
- * @property {number} gripTarmac2
- */
-
-/**
- * @typedef {Object} RealCarData
- * @property {number} power
- * @property {number} weight
- * @property {number} topSpeed
- * @property {number} downforce
- * @property {number} airResistance
- * @property {number} tyreWidthFront
- * @property {number} tyreWidthRear
- * @property {number} tyreCompound
- * @property {number} drivetrain
- * @property {boolean} isHistoric
- */
+import { calculateNonTarmacGrip, historicPenalty } from './calculateGrip';
 
 /**
  * @param {number} tyreWidthFront
@@ -99,14 +42,6 @@ function calculateKerbGrip(tarmacGrip) {
 }
 
 /**
- * Historic cars get a 15% grip penalty
- * @param {number} grip
- */
-function historicPenalty(grip) {
-  return grip - 0.15 * grip;
-}
-
-/**
  * @param {number} tyreWidthFront
  * @param {number} tyreWidthRear
  * @param {number} tyreCompound
@@ -136,8 +71,8 @@ function calculateTarmacGrip(tyreWidthFront, tyreWidthRear, tyreCompound, isHist
 }
 
 /**
- * @param {RealCarData} carData
- * @returns {CalculationResult}
+ * @param {import('./types').RealCarData} carData
+ * @returns {import('./types').CalculationResult}
  */
 export default function calculatePhysics({
   topSpeed,
@@ -155,13 +90,11 @@ export default function calculatePhysics({
   const weightScaled = weight * 0.6;
   const sliding = 0;
 
-  console.log(tyreWidthFront, tyreWidthRear);
-
   const balance = getBalance(tyreWidthFront, tyreWidthRear, weight);
 
   const tarmacGrip = calculateTarmacGrip(tyreWidthFront, tyreWidthRear, tyreCompound, isHistoric);
 
-  /** @type {CalculationResult} */
+  /** @type {import('./types').CalculationResult} */
   const result = {
     performance: {
       sliding,

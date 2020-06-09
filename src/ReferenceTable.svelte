@@ -15,39 +15,21 @@
 </style>
 
 <details class="wrapper">
-  <summary>Reference table</summary>
+  <summary>Downforce reference</summary>
 
-  <table>
-    <thead>
-      <tr>
-        <th>Downforce</th>
-        <th>Type of car</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>&gt;30</td>
-        <td>Most mass-produced production cars, also most historic race cars without wings.</td>
-      </tr>
-      <tr>
-        <td>25 - 100</td>
-        <td>Low tech touring and GT race or tuned cars.</td>
-      </tr>
-      <tr>
-        <td>100 - 190</td>
-        <td>Low tech open-wheel cars or medium tech touring or GT cars.</td>
-      </tr>
-      <tr>
-        <td>180 - 250</td>
-        <td>High tech GT and touring cars or medium tech open-wheel cars.</td>
-      </tr>
-      <tr>
-        <td>250+</td>
-        <td>
-          Le Mans Prototypes are at the lower end. Most of the very fast open-wheel cars (anything roughly equal to or
-          faster than a Formula Renault 3.5) are probably good for 300+. Consider 400 the upper limit for anything.
-        </td>
-      </tr>
-    </tbody>
-  </table>
+  <dl class="px-4 py-2">
+    <dt class="font-bold">&gt;30</dt>
+    <dd class="mb-2">Most mass-produced production cars, also most historic race cars without wings.</dd>
+    <dt class="font-bold">25 - 100</dt>
+    <dd class="mb-2">Low tech touring and GT race or tuned cars.</dd>
+    <dt class="font-bold">100 - 190</dt>
+    <dd class="mb-2">Low tech open-wheel cars or medium tech touring or GT cars.</dd>
+    <dt class="font-bold">180 - 250</dt>
+    <dd class="mb-2">High tech GT and touring cars or medium tech open-wheel cars.</dd>
+    <dt class="font-bold">250+</dt>
+    <dd>
+      Le Mans Prototypes are at the lower end. Most of the very fast open-wheel cars (anything roughly equal to or
+      faster than a Formula Renault 3.5) are probably good for 300+. Consider 400 the upper limit for anything.
+    </dd>
+  </dl>
 </details>

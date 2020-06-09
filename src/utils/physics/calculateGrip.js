@@ -1,12 +1,20 @@
 // @ts-check
 
 /**
- * @typedef {import('./calculatePhysics').SurfaceProperties} SurfaceProperties
+ * @typedef {import('./types').SurfaceProperties} SurfaceProperties
  */
 
 /**
  * @typedef {Omit<SurfaceProperties, 'tarmac' | 'tarmac2' | 'kerb' | 'kerb2'>} NonTarmacSurfaceProperties
  */
+
+/**
+ * Historic cars get a 15% grip penalty
+ * @param {number} grip
+ */
+export function historicPenalty(grip) {
+  return grip - 0.15 * grip;
+}
 
 /**
  * Calculates grip penalty/bonus based on car's drivetrain

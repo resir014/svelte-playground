@@ -1,16 +1,20 @@
 <script>
   export let name;
   export let label;
+  export let options;
   export let value;
 </script>
 
 <div class="mb-2">
   <label class="text-sm mb-2 text-gray-600" for={name}>{label}</label>
-  <input
+  <select
     class="bg-white focus:outline-none focus:shadow-outline border border-gray-300 rounded-md py-2 px-4 block w-full
-    appearance-none leading-normal"
-    type="number"
+    leading-normal"
     bind:value
-    id={name}
-    {name} />
+    {name}
+    id={name}>
+    {#each options as option}
+      <option value={option.value}>{option.name}</option>
+    {/each}
+  </select>
 </div>
