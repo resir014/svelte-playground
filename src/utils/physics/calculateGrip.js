@@ -9,14 +9,6 @@
  */
 
 /**
- * Historic cars get a 15% grip penalty
- * @param {number} grip
- */
-export function historicPenalty(grip) {
-  return grip - 0.15 * grip;
-}
-
-/**
  * Calculates grip penalty/bonus based on car's drivetrain
  * @param {number} grip Grip value
  * @param {number} drivetrain Drivetrain value
@@ -37,6 +29,73 @@ function gripPenaltyBonus(grip, drivetrain) {
       return grip;
     }
   }
+}
+
+/**
+ * Calculates tarmac2 grip.
+ *
+ * Required parameters:
+ * 1. Front tyre's width (twf)
+ * 2. Rear tyre's width (twr)
+ * 3. Compound from 1 to 7... (tc)
+ *
+ * The formula comes out like this:
+ *
+ * ```js
+ * ((twf+twr) * (1+(tc*0.1))) * 0.006
+ * ```
+ *
+ * @param {number} tyreWidthFront
+ * @param {number} tyreWidthRear
+ * @param {number} tyreCompound
+ */
+function calculateTarmac2Grip(tyreWidthFront, tyreWidthRear, tyreCompound) {
+  return (tyreWidthFront + tyreWidthRear) * (1 + tyreCompound * 0.1) * 0.006;
+}
+
+/**
+ * Historic cars get a 15% grip penalty
+ * @param {number} grip
+ */
+function historicPenalty(grip) {
+  return grip - 0.15 * grip;
+}
+
+/**
+ * Kerbs have a respective tarmac grip - 1.
+ * @param {number} tarmacGrip
+ */
+export function calculateKerbGrip(tarmacGrip) {
+  return tarmacGrip - 1;
+}
+
+/**
+ * @param {number} tyreWidthFront
+ * @param {number} tyreWidthRear
+ * @param {number} tyreCompound
+ * @param {boolean} isHistoric
+ */
+export function calculateTarmacGrip(tyreWidthFront, tyreWidthRear, tyreCompound, isHistoric) {
+  let tarmac;
+  let tarmac2;
+
+  tarmac2 = calculateTarmac2Grip(tyreWidthFront, tyreWidthRear, tyreCompound);
+
+  // Now we can find gripTarmac1.
+  if (tyreCompound < 6) {
+    // if TC type less than 6, tarmac2 - 0.1
+    tarmac = tarmac2 - 0.1;
+  } else {
+    // if TC type more than 5, tarmac2 - 0.2
+    tarmac = tarmac2 - 0.2;
+  }
+
+  if (isHistoric) {
+    tarmac = historicPenalty(tarmac);
+    tarmac2 = historicPenalty(tarmac2);
+  }
+
+  return { tarmac, tarmac2 };
 }
 
 /**
