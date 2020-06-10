@@ -1,6 +1,7 @@
 <script>
   import calculatePhysics from '../../utils/physics/calculatePhysics';
 
+  import Page from '../../components/Layout/Page.svelte';
   import NumberField from '../../components/Form/NumberField.svelte';
   import CheckboxField from '../../components/Form/CheckboxField.svelte';
   import SelectField from '../../components/Form/SelectField.svelte';
@@ -74,63 +75,44 @@
 </script>
 
 <style>
-  :root {
-    --grid-template: [full-start] 1fr [outer-start] 1fr [inner-start] minmax(auto, 1140px) [inner-end] 1fr [outer-end]
-      1fr [full-end];
-  }
-
-  .root {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    height: 100%;
-    min-height: 100vh;
-  }
-
-  .inner {
-    display: grid;
-    flex: 1 1 auto;
-    grid-template-columns: var(--grid-template);
-  }
-
   .column {
-    grid-column: inner;
+    width: 100%;
+    max-width: 976px;
+    margin-left: auto;
+    margin-right: auto;
   }
 </style>
 
-<div class="root">
-  <div class="inner">
+<Page>
+  <div class="column">
+    <h2 class="text-4xl font-semibold mt-8 mb-4">Step 1: Car Statistics</h2>
 
-    <div class="column p-4">
-      <h2 class="text-4xl font-semibold mt-8 mb-4">Step 1: Car Statistics</h2>
+    <NumberField label="Power (in hp/bhp)" name="power" bind:value={power} />
+    <NumberField label="Weight (in kg)" name="weight" bind:value={weight} />
+    <NumberField label="Top Speed (in km/h)" name="topSpeed" bind:value={topSpeed} />
 
-      <NumberField label="Power (in hp/bhp)" name="power" bind:value={power} />
-      <NumberField label="Weight (in kg)" name="weight" bind:value={weight} />
-      <NumberField label="Top Speed (in km/h)" name="topSpeed" bind:value={topSpeed} />
+    <h2 class="text-4xl font-semibold mt-8 mb-4">Step 2: Downforce</h2>
 
-      <h2 class="text-4xl font-semibold mt-8 mb-4">Step 2: Downforce</h2>
+    <NumberField label="Downforce Value" name="downforce" bind:value={downforce} />
 
-      <NumberField label="Downforce Value" name="downforce" bind:value={downforce} />
+    <ReferenceTable />
 
-      <ReferenceTable />
+    <NumberField label="Drag Coefficient (0.27 - 0.5)" name="airResistance" bind:value={airResistance} />
 
-      <NumberField label="Drag Coefficient (0.27 - 0.5)" name="airResistance" bind:value={airResistance} />
+    <h2 class="text-4xl font-semibold mt-8 mb-4">Step 3: Tyres</h2>
 
-      <h2 class="text-4xl font-semibold mt-8 mb-4">Step 3: Tyres</h2>
+    <NumberField label="Front tyre width (mm)" name="tyreWidthFront" bind:value={tyreWidthFront} />
+    <NumberField label="Rear tyre width (mm)" name="tyreWidthRear" bind:value={tyreWidthRear} />
+    <SelectField name="tyreCompound" label="Drivetrain" bind:value={tyreCompound} options={tyreCompounds} />
+    <CheckboxField name="isHistoric" label="Historic tyres" bind:checked={isHistoric} />
+    <SelectField name="drivetrain" label="Drivetrain" bind:value={drivetrain} options={drivetrains} />
 
-      <NumberField label="Front tyre width (mm)" name="tyreWidthFront" bind:value={tyreWidthFront} />
-      <NumberField label="Rear tyre width (mm)" name="tyreWidthRear" bind:value={tyreWidthRear} />
-      <SelectField name="tyreCompound" label="Drivetrain" bind:value={tyreCompound} options={tyreCompounds} />
-      <CheckboxField name="isHistoric" label="Historic tyres" bind:checked={isHistoric} />
-      <SelectField name="drivetrain" label="Drivetrain" bind:value={drivetrain} options={drivetrains} />
+    <button
+      class="bg-blue-500 hover:bg-blue-700 text-white font-bold mt-8 py-2 px-4 rounded w-full"
+      on:click={handleClick}>
+      Calculate
+    </button>
 
-      <button
-        class="bg-blue-500 hover:bg-blue-700 text-white font-bold mt-8 py-2 px-4 rounded w-full"
-        on:click={handleClick}>
-        Calculate
-      </button>
-
-      <Result {result} />
-    </div>
+    <Result {result} />
   </div>
-</div>
+</Page>
