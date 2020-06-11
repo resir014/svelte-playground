@@ -1,6 +1,9 @@
 <script>
+  /** @type {string} */
   export let name;
+  /** @type {string} */
   export let label;
+  /** @type {number | undefined} */
   export let value;
 </script>
 

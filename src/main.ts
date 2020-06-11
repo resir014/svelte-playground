@@ -2,14 +2,16 @@ import App from './App.svelte';
 
 import 'tailwindcss/dist/tailwind.css';
 
+declare global {
+  interface Window {
+    app: App;
+  }
+}
+
 const app = new App({
   target: document.body,
-  props: {
-    answer: 42,
-  },
 });
 
-// @ts-ignore
 window.app = app;
 
 export default app;

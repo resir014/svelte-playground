@@ -1,7 +1,18 @@
 <script>
+  /**
+   * @typedef {Object} SelectOptions
+   * @property {string} name
+   * @property {number} value
+   */
+
+  /** @type {string} */
   export let name;
+  /** @type {string} */
   export let label;
+
+  /** @type {SelectOptions[]} */
   export let options;
+  /** @type {number | undefined} */
   export let value;
 </script>
 
