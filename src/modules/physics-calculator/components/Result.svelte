@@ -1,5 +1,5 @@
 <script>
-  /** @type {import('../../../utils/physics/calculatePhysics').CalculationResult} */
+  /** @type {import('../../../utils/physics/types').CalculationResult} */
   export let result;
 </script>
 

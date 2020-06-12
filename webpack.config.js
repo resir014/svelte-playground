@@ -32,8 +32,6 @@ module.exports = {
             hotReload: !prod,
             preprocess: preprocess({
               typescript: {
-                // skips type checking
-                transpileOnly: true,
                 tsconfigFile: './tsconfig.json',
               },
             }),
