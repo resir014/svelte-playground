@@ -1,13 +1,14 @@
 // @ts-check
 
 import { calculateNonTarmacGrip, calculateTarmacGrip, calculateKerbGrip } from './calculateGrip';
+import { CalculationResult, RealCarData } from './types';
 
 /**
  * @param {number} tyreWidthFront
  * @param {number} tyreWidthRear
  * @param {number} weight
  */
-function getBalance(tyreWidthFront, tyreWidthRear, weight) {
+function getBalance(tyreWidthFront: number, tyreWidthRear: number, weight: number) {
   return (tyreWidthFront / tyreWidthRear) * 1.4 - weight * 0.0005;
 }
 
@@ -26,7 +27,7 @@ export default function calculatePhysics({
   drivetrain,
   isHistoric,
   weight,
-}) {
+}: RealCarData): CalculationResult {
   const topSpeedScaled = topSpeed * 0.277;
   const weightScaled = weight * 0.6;
   const sliding = 0;

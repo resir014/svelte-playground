@@ -1,12 +1,6 @@
-// @ts-check
+import { SurfaceProperties } from './types';
 
-/**
- * @typedef {import('./types').SurfaceProperties} SurfaceProperties
- */
-
-/**
- * @typedef {Omit<SurfaceProperties, 'tarmac' | 'tarmac2' | 'kerb' | 'kerb2'>} NonTarmacSurfaceProperties
- */
+type NonTarmacSurfaceProperties = Omit<SurfaceProperties, 'tarmac' | 'tarmac2' | 'kerb' | 'kerb2'>;
 
 /**
  * Calculates grip penalty/bonus based on car's drivetrain
@@ -14,7 +8,7 @@
  * @param {number} drivetrain Drivetrain value
  * @returns {number}
  */
-function gripPenaltyBonus(grip, drivetrain) {
+function gripPenaltyBonus(grip: number, drivetrain: number) {
   switch (drivetrain) {
     case 2: {
       // Rear-wheel drive
@@ -49,7 +43,7 @@ function gripPenaltyBonus(grip, drivetrain) {
  * @param {number} tyreWidthRear
  * @param {number} tyreCompound
  */
-function calculateTarmac2Grip(tyreWidthFront, tyreWidthRear, tyreCompound) {
+function calculateTarmac2Grip(tyreWidthFront: number, tyreWidthRear: number, tyreCompound: number) {
   return (tyreWidthFront + tyreWidthRear) * (1 + tyreCompound * 0.1) * 0.006;
 }
 
@@ -57,7 +51,7 @@ function calculateTarmac2Grip(tyreWidthFront, tyreWidthRear, tyreCompound) {
  * Historic cars get a 15% grip penalty
  * @param {number} grip
  */
-function historicPenalty(grip) {
+function historicPenalty(grip: number) {
   return grip - 0.15 * grip;
 }
 
@@ -65,7 +59,7 @@ function historicPenalty(grip) {
  * Kerbs have a respective tarmac grip - 1.
  * @param {number} tarmacGrip
  */
-export function calculateKerbGrip(tarmacGrip) {
+export function calculateKerbGrip(tarmacGrip: number) {
   return tarmacGrip - 1;
 }
 
@@ -75,7 +69,12 @@ export function calculateKerbGrip(tarmacGrip) {
  * @param {number} tyreCompound
  * @param {boolean} isHistoric
  */
-export function calculateTarmacGrip(tyreWidthFront, tyreWidthRear, tyreCompound, isHistoric) {
+export function calculateTarmacGrip(
+  tyreWidthFront: number,
+  tyreWidthRear: number,
+  tyreCompound: number,
+  isHistoric: boolean,
+) {
   let tarmac;
   let tarmac2;
 
@@ -102,9 +101,8 @@ export function calculateTarmacGrip(tyreWidthFront, tyreWidthRear, tyreCompound,
  * Calculates non-tarmac grip values
  * @param {number} tyreCompound Tyre compound value
  * @param {number} drivetrain Drivetrain value
- * @returns {NonTarmacSurfaceProperties}
  */
-export function calculateNonTarmacGrip(tyreCompound, drivetrain) {
+export function calculateNonTarmacGrip(tyreCompound: number, drivetrain: number): NonTarmacSurfaceProperties {
   switch (tyreCompound) {
     case 1: {
       // Economy

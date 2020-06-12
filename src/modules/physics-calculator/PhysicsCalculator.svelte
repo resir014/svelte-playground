@@ -1,4 +1,5 @@
 <script>
+  // @ts-check
   import calculatePhysics from '../../utils/physics/calculatePhysics';
 
   import Page from '../../components/Layout/Page.svelte';
@@ -6,8 +7,8 @@
   import CheckboxField from '../../components/Form/CheckboxField.svelte';
   import SelectField from '../../components/Form/SelectField.svelte';
 
-  import Result from './Result.svelte';
-  import ReferenceTable from './ReferenceTable.svelte';
+  import Result from './components/Result.svelte';
+  import ReferenceTable from './components/ReferenceTable.svelte';
 
   const tyreCompounds = [
     { value: 1, name: 'Economy' },
@@ -25,37 +26,57 @@
     { value: 3, name: '4-wheel drive' },
   ];
 
-  let power = 0;
-  let weight = 0;
-  let topSpeed = 0;
+  /** @type {number | undefined} */
+  let power = undefined;
+  /** @type {number | undefined} */
+  let weight = undefined;
+  /** @type {number | undefined} */
+  let topSpeed = undefined;
 
-  let downforce = 0;
-  let airResistance = 0;
+  /** @type {number | undefined} */
+  let downforce = undefined;
+  /** @type {number | undefined} */
+  let airResistance = undefined;
 
-  let tyreWidthFront = 0;
-  let tyreWidthRear = 0;
-  let tyreCompound;
-  let drivetrain;
+  /** @type {number | undefined} */
+  let tyreWidthFront = undefined;
+  /** @type {number | undefined} */
+  let tyreWidthRear = undefined;
+  /** @type {number | undefined} */
+  let tyreCompound = undefined;
+  /** @type {number | undefined} */
+  let drivetrain = undefined;
 
+  /** @type {boolean} */
   let isHistoric = false;
-  let calculateCount = 0;
 
   let result;
 
   function handleClick() {
-    calculateCount += 1;
-    result = calculatePhysics({
-      power,
-      weight,
-      topSpeed,
-      downforce,
-      airResistance,
-      tyreWidthFront,
-      tyreWidthRear,
-      tyreCompound,
-      drivetrain,
-      isHistoric,
-    });
+    if (
+      power &&
+      weight &&
+      topSpeed &&
+      downforce &&
+      airResistance &&
+      tyreWidthFront &&
+      tyreWidthRear &&
+      tyreCompound &&
+      drivetrain
+    ) {
+      result = calculatePhysics({
+        power,
+        weight,
+        topSpeed,
+        downforce,
+        airResistance,
+        tyreWidthFront,
+        tyreWidthRear,
+        tyreCompound,
+        drivetrain,
+        isHistoric,
+      });
+    }
   }
 
   $: {

@@ -39,8 +39,8 @@
 </style>
 
 <div class="content-root">
-  <nav class="drawer bg-white px-6" class:is-drawer-open={!!isDrawerOpen}>drawer</nav>
-  <main class="main" class:is-drawer-open={!!isDrawerOpen}>
+  <nav class="drawer bg-white px-6 {isDrawerOpen && 'is-drawer-open'}">drawer</nav>
+  <main class="main {isDrawerOpen && 'is-drawer-open'}">
     <slot />
   </main>
 </div>
