@@ -6,8 +6,10 @@
 
   let isDrawerOpen = false;
 
+  /**
+   * @param {any} event
+   */
   function handleDrawerToggle(event) {
-    console.log('handleDrawerToggle', event.detail.isDrawerOpen)
     isDrawerOpen = event.detail.isDrawerOpen
   }
 </script>
