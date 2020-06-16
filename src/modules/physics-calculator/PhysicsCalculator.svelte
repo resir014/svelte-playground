@@ -3,6 +3,7 @@
   import calculatePhysics from '../../utils/physics/calculatePhysics';
 
   import Page from '../../components/Layout/Page.svelte';
+  import Card from '../../components/Layout/Card.svelte';
   import NumberField from '../../components/Form/NumberField.svelte';
   import CheckboxField from '../../components/Form/CheckboxField.svelte';
   import SelectField from '../../components/Form/SelectField.svelte';
@@ -102,31 +103,56 @@
     margin-left: auto;
     margin-right: auto;
   }
+
+  .form-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-gap: 24px;
+    margin-top: 48px;
+    margin-bottom: 24px;
+  }
 </style>
 
 <Page>
   <div class="column">
-    <h2 class="text-4xl font-semibold mt-8 mb-4">Step 1: Car Statistics</h2>
 
-    <NumberField label="Power (in hp/bhp)" name="power" bind:value={power} />
-    <NumberField label="Weight (in kg)" name="weight" bind:value={weight} />
-    <NumberField label="Top Speed (in km/h)" name="topSpeed" bind:value={topSpeed} />
+    <div class="mt-6">
+      <h2 class="text-3xl font-semibold">Physics Calculator</h2>
+      <p class="text-lg text-gray-600">
+        Use this simple tool to generate a realistic, scaled-down attributes for your GeneRally car files.
+      </p>
+      <p class="text-lg text-gray-600">Inspired by Haruna's Realistic Car Physics.</p>
+    </div>
 
-    <h2 class="text-4xl font-semibold mt-8 mb-4">Step 2: Downforce</h2>
+    <div class="form-grid">
+      <Card>
+        <h2 class="text-2xl font-semibold mt-0 mb-4">Step 1: Car Statistics</h2>
 
-    <NumberField label="Downforce Value" name="downforce" bind:value={downforce} />
+        <NumberField label="Power (in hp/bhp)" name="power" bind:value={power} />
+        <NumberField label="Weight (in kg)" name="weight" bind:value={weight} />
+        <NumberField label="Top Speed (in km/h)" name="topSpeed" bind:value={topSpeed} />
+      </Card>
 
-    <ReferenceTable />
+      <Card>
+        <h2 class="text-2xl font-semibold mt-0 mb-4">Step 2: Downforce</h2>
 
-    <NumberField label="Drag Coefficient (0.27 - 0.5)" name="airResistance" bind:value={airResistance} />
+        <NumberField label="Downforce Value" name="downforce" bind:value={downforce} />
 
-    <h2 class="text-4xl font-semibold mt-8 mb-4">Step 3: Tyres</h2>
+        <ReferenceTable />
 
-    <NumberField label="Front tyre width (mm)" name="tyreWidthFront" bind:value={tyreWidthFront} />
-    <NumberField label="Rear tyre width (mm)" name="tyreWidthRear" bind:value={tyreWidthRear} />
-    <SelectField name="tyreCompound" label="Drivetrain" bind:value={tyreCompound} options={tyreCompounds} />
-    <CheckboxField name="isHistoric" label="Historic tyres" bind:checked={isHistoric} />
-    <SelectField name="drivetrain" label="Drivetrain" bind:value={drivetrain} options={drivetrains} />
+        <NumberField label="Drag Coefficient (0.27 - 0.5)" name="airResistance" bind:value={airResistance} />
+      </Card>
+
+      <Card>
+        <h2 class="text-2xl font-semibold mt-0 mb-4">Step 3: Tyres</h2>
+
+        <NumberField label="Front tyre width (mm)" name="tyreWidthFront" bind:value={tyreWidthFront} />
+        <NumberField label="Rear tyre width (mm)" name="tyreWidthRear" bind:value={tyreWidthRear} />
+        <SelectField name="tyreCompound" label="Drivetrain" bind:value={tyreCompound} options={tyreCompounds} />
+        <CheckboxField name="isHistoric" label="Historic tyres" bind:checked={isHistoric} />
+        <SelectField name="drivetrain" label="Drivetrain" bind:value={drivetrain} options={drivetrains} />
+      </Card>
+    </div>
 
     <button
       class="bg-blue-500 hover:bg-blue-700 text-white font-bold mt-8 py-2 px-4 rounded w-full"
