@@ -7,10 +7,6 @@
 </script>
 
 <style>
-  .results {
-    text-align: right;
-  }
-
   .form-grid {
     display: grid;
     grid-template-columns: 1fr;
